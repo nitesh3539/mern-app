@@ -4,7 +4,7 @@
   "description": "",
   "main": "App.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "client": "npm start --prefix front-end",
     "dev": "concurrently \"npm run start\" \"npm run client\" ",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix front-end && npm run build --prefix front-end",

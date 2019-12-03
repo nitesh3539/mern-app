@@ -9,6 +9,7 @@ export default function itemReducer(state = intialState, action){
     switch(action.type){
         case 'IS_LOADING' : return { ...state, loading : action.payload}
         case 'GET_ITEMS' : 
+        localStorage.removeItem('token')
         return { ...state, loading : false, items : action.payload }
         case 'DELETE_ITEM' : 
         console.log("action",action, state.items)

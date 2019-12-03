@@ -12,6 +12,12 @@ import {
     Container
 } from 'reactstrap'
 
+import RegisterModal from './RegisterModal'
+import LoginModal from './LoginModal'
+import { connect } from 'react-redux';
+import LogoutModal from './LogoutModal'
+import PropTypes from 'prop-types';
+import { register } from '../module/register/registerAction';
 class AppNavBar extends PureComponent{
 
 
@@ -70,6 +76,36 @@ class AppNavBar extends PureComponent{
     this.setState({list : json.productList})
   }
 
+  renderLogin(){
+    return(
+      <Collapse isOpen={this.state.isOpen} navbar>
+                    <Nav className="ml-auto" navbar>
+                        <NavItem>
+                          {this.props.user.username}
+                        </NavItem>
+                        <NavItem>
+                          <LogoutModal/>
+                        </NavItem>
+                    </Nav>
+                </Collapse>
+    )
+  }
+
+  renderLogout(){
+    return(
+      <Collapse isOpen={this.state.isOpen} navbar>
+                    <Nav className="ml-auto" navbar>
+                        <NavItem>
+                          <RegisterModal/>
+                        </NavItem>
+                        <NavItem>
+                          <LoginModal/>
+                        </NavItem>
+                    </Nav>
+                </Collapse>
+    )
+  }
+
   render(){
   return (
     <div className="App">
@@ -79,13 +115,7 @@ class AppNavBar extends PureComponent{
                   Shopping List
                 </NavbarBrand>
                 <NavbarToggler onClick={this.toggle} />
-                <Collapse isOpen={this.state.isOpen} navbar>
-                    <Nav className="ml-auto" navbar>
-                        <NavItem>
-                          <NavLink href="https://github.com/niteshsingh0129">Github</NavLink>
-                        </NavItem>
-                    </Nav>
-                </Collapse>
+                {this.props.isAuthenticated ? this.renderLogin() : this.renderLogout()}
             </Container>
         </Navbar>
     </div>
@@ -93,4 +123,10 @@ class AppNavBar extends PureComponent{
   }
 }
 
-export default AppNavBar;
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  user : state.auth.user,
+  error: state.error
+});
+
+export default connect(mapStateToProps)(AppNavBar);
